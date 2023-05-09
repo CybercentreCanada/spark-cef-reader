@@ -15,10 +15,10 @@ private[cef] case class CefPartitionReaderFactory(
                                                    dataSchema: StructType,
                                                    readDataSchema: StructType,
                                                    readPartitionSchema: StructType,
-                                                   cefOptions: CefParserOptions
+                                                   options: CefParserOptions,
                                                  ) extends FilePartitionReaderFactory {
   override def buildReader(partitionedFile: PartitionedFile): PartitionReader[InternalRow] = {
-    val iterator = new CefDataIterator(cefOptions)
+    val iterator = new CefDataIterator(options)
     val reader = new PartitionReaderFromIterator[InternalRow](iterator.readFile(broadcastConf.value.value, partitionedFile, readDataSchema))
 
     new PartitionReaderWithPartitionValues(reader, readDataSchema, readPartitionSchema, partitionedFile.partitionValues)

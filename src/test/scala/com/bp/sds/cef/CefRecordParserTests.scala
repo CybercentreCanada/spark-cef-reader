@@ -34,7 +34,7 @@ class CefRecordParserTests extends AnyFlatSpec with Matchers with BeforeAndAfter
   behavior of "Parsing records with an invalid number of records"
 
   it should "throw an error if the device vendor is missing" in {
-    val recordParser = new CefRecordParser(CefParserOptions())
+    val recordParser = new CefRecordParser(new CefParserOptions())
 
     val error = the [CefRecordParserException] thrownBy recordParser.parse("CEF:0", headerFields)
     error.getMessage.contains("Missing device vendor in record") should be(true)

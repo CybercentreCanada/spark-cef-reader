@@ -2,9 +2,11 @@ package com.bp.sds.cef
 
 import com.bp.sds.cef.CefParserOptions._
 import org.apache.commons.codec.language.DoubleMetaphone
+import org.apache.spark.sql.catalyst.FileSourceOptions
 import org.apache.spark.sql.catalyst.util.{ParseMode, PermissiveMode}
 import org.apache.spark.sql.util.CaseInsensitiveStringMap
 
+import scala.collection.JavaConverters
 import scala.collection.convert.ImplicitConversions.`collection AsScalaIterable`
 import scala.collection.mutable.ArrayBuffer
 
@@ -26,7 +28,15 @@ case class CefParserOptions(maxRecords: Int = defaultMaxRecords,
                             defensiveMode: Boolean = defaultDefensiveMode,
                             nullValue: String = defaultNullValue,
                             dateFormat: String = defaultDateFormat
-                           ) {
+                           ) extends FileSourceOptions(Map(
+                                "maxRecords" -> maxRecords.toString,
+                                "pivotFields" -> pivotFields.toString,
+                                "mode" -> mode.toString,
+                                "corruptRecordColumnName" -> corruptColumnName,
+                                "defensiveMode" -> defensiveMode.toString,
+                                "nullValue" -> nullValue,
+                                "dateFormat" -> dateFormat
+                           )) {
   /**
    * Is the required date format epoch milliseconds
    *
@@ -138,6 +148,8 @@ private[cef] object CefParserOptions {
 
     val parsedMode: ParseMode = ParseMode.fromString(options.getOrDefault("mode", "permissive"))
 
+
+
     CefParserOptions(
       options.getInt("maxRecords", defaultMaxRecords),
       options.getBoolean("pivotFields", defaultPivotFields),
@@ -179,5 +191,6 @@ private[cef] object CefParserOptions {
       options.getOrElse("nullValue", defaultNullValue),
       dateFormat
     )
+
   }
 }
