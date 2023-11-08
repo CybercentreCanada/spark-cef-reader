@@ -69,8 +69,8 @@ private[cef] class CefRecordParser(options: CefParserOptions) extends Logging {
                 }
               }
             }
-            throw BadRecordException(() => recordString, () => Some(resultRow), e)
-          case None => throw BadRecordException(() => recordString, () => None, e)
+            throw BadRecordException(() => recordString, () => Array(resultRow), e)
+          case None => throw BadRecordException(() => recordString, () => Array(), e)
         }
     }
   }
