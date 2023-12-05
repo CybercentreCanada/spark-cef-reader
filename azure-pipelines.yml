@@ -8,7 +8,7 @@ variables:
   tag: '$(Build.BuildId)'
   branch: '$(Build.SourceBranchName)'
 
-pool: 'stratus-build-pool.u'
+pool: cybertron-build-pool
 
 stages:
   - stage: Build_and_Publish_MavenArtifact
@@ -21,9 +21,9 @@ stages:
               mavenPomFile: "pom.xml"
               mavenOptions: "-Xmx3072m"
               javaHomeOption: "path"
-              jdkVersionOption: "1.8"
+              jdkVersionOption: "1.11"
               jdkArchitectureOption: "x64"
-              jdkDirectory: "/usr/lib/jvm/java-8-openjdk-amd64"
+              jdkDirectory: "/usr/lib/jvm/java-11-openjdk-amd64"
               publishJUnitResults: true
               testResultsFiles: "**/surefire-reports/TEST-*.xml"
               goals: "deploy"
